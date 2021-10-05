@@ -70,7 +70,10 @@ namespace FredericRP.StringDataList
       }
       else
       {
-        property.stringValue = EditorGUI.TextField(valueRect, property.stringValue);
+        if (property.propertyType == SerializedPropertyType.String)
+          property.stringValue = EditorGUI.TextField(valueRect, property.stringValue);
+        else
+          property.intValue = EditorGUI.IntField(valueRect, property.intValue);
       }
       property.serializedObject.ApplyModifiedProperties();
       // */
