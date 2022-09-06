@@ -70,6 +70,13 @@ namespace FredericRP.StringDataList
       }
       else
       {
+        if ((attribute as SelectAttribute).showWarning)
+        {
+          // Add a help box warning the list can not be found
+          valueRect.height -= 2 * EditorGUIUtility.singleLineHeight;
+          Rect helpRect = new Rect(valueRect.x, valueRect.y + EditorGUIUtility.singleLineHeight, valueRect.width, 2 * EditorGUIUtility.singleLineHeight);
+          EditorGUI.HelpBox(helpRect, $"No data list named {(attribute as SelectAttribute).identifier} found", MessageType.Warning);
+        }
         if (property.propertyType == SerializedPropertyType.String)
           property.stringValue = EditorGUI.TextField(valueRect, property.stringValue);
         else
@@ -79,6 +86,24 @@ namespace FredericRP.StringDataList
       // */
 
       EditorGUI.EndProperty();
+    }
+
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+      if (!(attribute as SelectAttribute).showWarning)
+        return base.GetPropertyHeight(property, label);
+
+      string[] identifierList = (attribute as SelectAttribute).identifier.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+      List<string> list = new List<string>();
+      for (int i = 0; i < identifierList.Length; i++)
+      {
+        list.AddRange(DataListLoader.GetDataList(identifierList[i].Trim()));
+      }
+      // 2. result list
+      if (list.Count > 0)
+        return base.GetPropertyHeight(property, label);
+      else
+        return base.GetPropertyHeight(property, label) + 2 * EditorGUIUtility.singleLineHeight;
     }
 
   }
