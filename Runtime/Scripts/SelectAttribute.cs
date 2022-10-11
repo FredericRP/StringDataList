@@ -7,12 +7,7 @@ namespace FredericRP.StringDataList
     public string identifier;
     public bool showWarning = false;
 
-    public SelectAttribute(string identifier)
-    {
-      this.identifier = identifier;
-      this.showWarning = false;
-    }
-    public SelectAttribute(string identifier, bool showWarning)
+    public SelectAttribute(string identifier, bool showWarning = false)
     {
       this.identifier = identifier;
       this.showWarning = showWarning;

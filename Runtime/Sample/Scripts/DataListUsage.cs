@@ -10,7 +10,9 @@ public class DataListUsage : MonoBehaviour
     public int maximumAge = 100;
     public int pawCount = 3;
     [Select("animal")]
-    public string bestFriend;
+    public int bestFriend;
+    [Select("animal")]
+    public string worstEnemy;
   }
 
   [System.Serializable]

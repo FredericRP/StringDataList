@@ -19,10 +19,13 @@ namespace FredericRP.StringDataList
       // Using BeginProperty / EndProperty on the parent property means that
       // prefab override logic works on the entire property.
       EditorGUI.BeginProperty(position, label, property);
-
-      // Draw label
-      Rect firstLineRect = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
-
+      
+      Rect firstLineRect = position;
+      if (!label.Equals(GUIContent.none))
+      {
+        // Draw label and update rect
+        firstLineRect = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
+      }
       // - line 1 : selected value
       Rect valueRect = new Rect(firstLineRect.x, position.y, firstLineRect.width - 32, position.height);
       Rect buttonRect = new Rect(firstLineRect.x + firstLineRect.width - 32, position.y, 32, position.height);

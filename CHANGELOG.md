@@ -5,6 +5,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+## [1.0.3] - 2022-10-12
+
+### Added
+- added optional second parameter to display a warning if datalist file is not found
+
+### Changed
+- update documentation for int properties
+- better display of the field without a label
+
 ### Fixed
 - License file was ignored instead of staged
 

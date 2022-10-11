@@ -1,29 +1,33 @@
 # String data list
 
-It's a kind of dynamic enum enabler.
-Let say you want to allow your designer to edit some string properties in your project (you, fool) but there are only a limited amount of allowed strings, like characters names, seasons or anything, and for whatever reason, you don't want or cannot use enums.
-Or maybe you have a list of data, and you don't want to have a "name" property of each data nor you want the list to display "Element 0", "Element 1", but instead you want to use your own names: for instance "Cat, dog, unicorn, etc".
+It's a kind of dynamic enum enabler: it allows an **integer** or **string** property to have a **limited amount of values**, from a list **stored in a TXT file**.
 
-This is the asset for you. You can store the value as a string or an integer and display it as a string picked in an existing external list.
+For instance, you can have a ```List<Animal>``` with their ```maximumAge```, ```pawCount``` and ```bestFriend```, all stored as integers, but shown as below
 
 ![Customise names of elements in an array](Documentation~/images/list-naming.jpg)
+
+You would have to create the ```Resources/datalist/animal.txt``` file containing this
+
+![List of animals in a text file](Documentation~/images/text-file.png)
+
 
 ## Description
 
 There are two attributes and drawer:
-- [Select("characters")]: allow to enter a string by selecting a name in the list
-- [DataList("season")]: allow to customise the element names of a list
+- [Select("characters")]: allow to select a name in the list for an ```int``` or ```string``` property, the int is the index in the list.
+- [DataList("season")]: allow to customise the element names of a list, it's just cosmetic.
 
 The parameter in parenthesis is used to load a TXT file of that name from the **datalist** folder in the **Resources** of your project.
-
 In those examples, there would be a characters.txt file and a season.txt file.
+
+There is an **optional ```showWarning``` parameter** that is false by default. If set to true, it will display a warning if the text file matching the filename is not found or empty (see FAQ for a sample).
 
 ## Usage
 
-### String or int Select
+### Select attribute: string or int property
 
-1. Create a TXT file in a Resources/datalist folder in your project, named after the data your want to enter, for instance animal.txt
-2. Add one line per data
+1. Create a TXT file in a ```Resources/datalist``` folder in your project, named after the data your want to enter, for instance ```animal.txt```
+2. Add one line per data (ie animal name)
 3. Add the ```[Select]``` attribute on a string (or an int) property to be able to enter a string only from that file content as below
 
  ```C#
@@ -39,15 +43,30 @@ In those examples, there would be a characters.txt file and a season.txt file.
  int favoriteAnimalId;
   ```
 
+You can even mix the two types of properties for the same data list!
+
+```C#
+[System.Serializable]
+class Animal
+{
+  public int maximumAge = 100;
+  public int pawCount = 3;
+  [Select("animal")]
+  public int bestFriend;
+  [Select("animal")]
+  public string worstEnemy;
+}
+```
+
 ![demo](Documentation~/images/string-select.jpg)
 
 **Caution**: if you use an int field, the value will still be the same integer even if you change the lines TXT file! (order of lines and/or content)
 
-### List element customisation
+### List element customisation: DataList
 
-1. Create a TXT file in a Resources/datalist folder in your project, named after the names kind your want, for instance animal.txt
-2. Add one line per data
-3. Create a child class from the generic  ```DataList<T>``` provided class
+1. Create a TXT file in a ```Resources/datalist``` folder in your project, named after the names kind your want, for instance ```animal.txt```
+2. Add one line per data (ie animal name)
+3. Create a child class from the generic  ```DataList<T>``` provided class (```DataList<Animal>``` in the example below)
 3. Add the ```[DataList]``` attribute to a list or array property on another MonoBehaviour or ScriptableObject class
 
   ```C#
@@ -55,8 +74,8 @@ In those examples, there would be a characters.txt file and a season.txt file.
   class AnimalList : DataList<Animal> { }
 
   [SerializeField]
-  [Select("animal")]
-  string favoriteAnimal;
+  [DataList("animal")]
+  AnimalList animalCharacteristics;
   ```
 
 ![Customise names of elements in an array](Documentation~/images/list-naming-short.jpg)
@@ -73,9 +92,9 @@ A demo is present under the Sample folder.
 
 ## FAQ
 
-### I have added [Select("MyCoolList")] before a string/int property but it still shows only a regular field, what is wrong?
+### I have added ```[Select("MyCoolList")]``` before a string/int property but it still shows only a regular field, what is wrong?
 
-Ensure the ```MyCoolList.txt``` asset exists in a ```Resources``` folder or your project and the file is not empty. If no file is found or the file is empty, this asset uses the regular property field.
+Ensure the ```MyCoolList.txt``` asset exists in a ```Resources/datalist``` folder or your project and the file is not empty. If no file is found or the file is empty, this asset uses the regular property field.
 
 If you want to make sure the attribute is correctly used, you can add a second parameter that displays a warning if something is missing:
 
@@ -90,6 +109,7 @@ If you want to make sure the attribute is correctly used, you can add a second p
 ### It still does not display the SelectDrawer/DataListDrawer!
 
 Are you sure the inspector is not in Debug mode?
-By the way, did you know that in Debug mode, you can Alt-Click on a property name to display the real exact property name?
+
+By the way, did you know that in Debug mode, you can **Alt-Click** on a property name to display the real exact property name?
 
 ![debug mode, no drawer](Documentation~/images/debug-mode.jpg)
