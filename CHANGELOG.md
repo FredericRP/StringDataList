@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ## Unreleased
 
+## [1.0.4] - 2022-10-18
+
+### Added
+- add openUPM badge, load all datalist when multiple files use the same name
+
 ## [1.0.3] - 2022-10-12
 
 ### Added

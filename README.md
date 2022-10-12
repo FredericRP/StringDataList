@@ -1,3 +1,5 @@
+[![openupm](https://img.shields.io/npm/v/com.fredericrp.stringdatalist?label=openupm&registry_uri=https://package.openupm.com)](https://openupm.com/packages/com.fredericrp.stringdatalist/)
+
 # String data list
 
 It's a kind of dynamic enum enabler: it allows an **integer** or **string** property to have a **limited amount of values**, from a list **stored in a TXT file**.
